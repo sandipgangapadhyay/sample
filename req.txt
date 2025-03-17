@@ -1,0 +1,38 @@
+
+Pod Scheduling Requirements:
+•	Must have appropriate tolerations to match any taints on the Karpenter nodes
+•	Should specify resource requests and limits accurately
+•	Must use node selectors or node affinity rules that match Karpenter's NodePool configuration 
+Application Design Requirements:
+•	Must be designed to handle node terminations gracefully
+•	Should implement proper pod disruption budgets (PDBs)
+•	For stateful applications:
+o	Must use persistent storage properly configured with StorageClass
+o	Should handle node replacement scenarios
+o	Consider using the “karpenter.sh/do-not-disrupt” annotation for critical workloads
+o	Stateful applications should use persistent volumes
+o	Must handle temporary storage needs appropriately
+o	Should not rely on local node storage without proper backup/recovery mechanisms
+High Availability Considerations:
+•	Should have proper replica count for redundancy
+•	Implement pod anti-affinity rules to spread across nodes 
+•	Use topology spread constraints if needed
+Related link - https://karpenter.sh/docs/concepts/scheduling/
+
+
+
+
+Lifecycle Management:
+•	Should account for shutdown grace periods 
+•	Consider using startup probes for slow-starting applications
+•	Implement proper readiness and liveness probes - 
+•	Should have proper shutdown hooks for graceful termination
+Related Link - https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/
+https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/
+
+Compliance with Node Constraints:
+•	Must respect node taints and tolerations
+•	Should work with the instance types specified in NodePool
+•	Must be compatible with the OS/architecture of provisioned nodes
+.
+
